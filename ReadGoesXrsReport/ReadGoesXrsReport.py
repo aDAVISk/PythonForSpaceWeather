@@ -28,13 +28,15 @@ class FlareEvent:
 	# flux  : float - GOES flux in Watt/m**2
 	# lat   : int - latitude of the flare (North = + direction)
 	# cmd   : int - central meridian distance of the flare (East = + direction)
+	# noaa  : int - NOAA/USAF sunspot number
 	__defFormat="isot"
-	def __init__(self,start=None,end=None, max=None, clss=None, mag=None,location=None):
+	def __init__(self,start=None,end=None, max=None, clss=None, mag=None,location=None,noaa=None):
 		self.setStart(start)  
 		self.setEnd(end)
 		self.setMax(max)
 		self.setClssMag(clss,mag)
 		self.setLocation(location)
+		self.setNoaa(noaa)
 
 	def __del__(self):
 		pass
@@ -76,15 +78,27 @@ class FlareEvent:
 	def setLocation(self,location):
 		#print("{0}".format(location))
 		if location is not None:
-			if((location[0]!="N") and (location[0]!="S")) or ((location[3]!="E") and (location[3]!="W")):
-				self.lat = None
-				self.cmd = None
-			else:
+			if (location[0]=="N") or (location[0]=="S"):
 				self.lat = int(location[1:3]) if location[0] == "N" else -1*int(location[1:3])
+			else:
+				self.lat = None
+
+			if (location[3]=="E") or (location[3]=="W"):
 				self.cmd = int(location[4:6]) if location[3] == "E" else -1*int(location[4:6])
+			else:
+				self.cmd = None
 		else:
 			self.lat = None
 			self.cmd = None
+
+	def setNoaa(self,noaa):
+		if noaa is not None:
+			try:
+				self.noaa = int(noaa)
+			except ValueError:
+				self.noaa = None
+		else:
+			self.noaa = None
 # end of class FlareEvent
 
 def ReadOneGoesXrsReport(istr):
@@ -94,7 +108,7 @@ def ReadOneGoesXrsReport(istr):
 	start = date+istr[9:11]+"T"+istr[13:15]+":"+istr[15:17]
 	end = date+istr[9:11]+"T"+istr[18:20]+":"+istr[20:22]
 	max = date+istr[9:11]+"T"+istr[23:25]+":"+istr[25:27] if istr[23:25] != "  " else None
-	return FlareEvent(start=start,end=end,max=max,location=istr[28:34],clss=istr[59], mag=istr[60:63])
+	return FlareEvent(start=start,end=end,max=max,location=istr[28:34],clss=istr[59], mag=istr[60:63], noaa=istr[80:86])
 
 def ReadGoesXrsReport(file):
 	ifile = open(file, "r")
