@@ -4,7 +4,7 @@
  Creative Commons BY: Akito D. Kawamura
  
  Provides preparation routine for data captured by the HMI instrument on SDO.
- Refering to 
+ This program is a modification of 
  	http://docs.sunpy.org/en/stable/_modules/sunpy/instr/aia.html#aiaprep
  	(retrieved at 2017.12.26)
  ---update log---
