@@ -5,6 +5,8 @@
 # This program is for reading Dst-index in "WDC-like Dst format"
 # For Dst-index, please check
 # World Data Center for Geomagnetism, Kyoto (http://wdc.kugi.kyoto-u.ac.jp/)
+# 
+# Error value (originally 9999) is replaced with numpy.nan
 ##############################################
 
 import numpy as np
