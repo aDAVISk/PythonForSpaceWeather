@@ -48,9 +48,12 @@ def plotScatHist(x,y, # data for plotting
 	x = np.array(x)
 	y = np.array(y)
 	if xticks is None:
-		xticks = np.linspace(logFloor(np.min(x)), logCeil(np.max(x)),binNum+1)
+		if yticks is None:
+			xticks = np.linspace(logFloor(np.min([x,y])), logCeil(np.max([x,y])),binNum+1)
+		else:
+			xticks = yticks
 	if yticks is None:
-		yticks = np.linspace(logFloor(np.min(y)), logCeil(np.max(y)),binNum+1)
+		yticks = xticks
 	if xlim is None:
 		axMargin = 0.1*np.min([np.abs(logFloor(xticks[0])),np.abs(logFloor(xticks[-1]))])
 		xlim = np.array([logFloor(xticks[0])-axMargin,logCeil(xticks[-1])+axMargin])
@@ -59,7 +62,7 @@ def plotScatHist(x,y, # data for plotting
 		ylim = np.array([logFloor(yticks[0])-axMargin,logCeil(yticks[-1])+axMargin])
 	if bins is None:
 		bins = np.linspace(np.min([xticks[0],yticks[0]]),np.max([xticks[-1],yticks[-1]]),binNum+1)
-
+	
 	# calculate the linear regression
 	lin_x = x.reshape(-1,1)
 	lin_y = y.reshape(-1,1)
@@ -89,7 +92,7 @@ def plotScatHist(x,y, # data for plotting
 	axHistY.tick_params(direction='in', labelleft=False)
   
 	# Plots
-	axScatter.plot(xlim,ylim,":", color="grey")
+	axScatter.plot(xlim,[ylim[0],xlim[1]/float(xlim[0])*ylim[0]],":", color="grey")
 	axScatter.plot(x,y,scatMark,ms=10)
 	axScatter.plot(xlim,reg.predict(xlim.reshape(-1,1)),color='black', linestyle='dashed')
   
@@ -115,6 +118,8 @@ def plotScatHist(x,y, # data for plotting
 	axHistX.set_ylabel("counts")
 	axHistX.set_xlim(axScatter.get_xlim())
 	axHistX.set_xticks(axScatter.get_xticks())
+	if axStrFormat is not None:
+		axHistX.yaxis.set_major_formatter(FormatStrFormatter("%{0}d".format(len(format(yticks[-1],axStrFormat[1:])))))
 	axHistX.yaxis.set_label_coords(-ylabelOff, 0.5)
 
 	# Adjestment for histgram of y
@@ -123,6 +128,8 @@ def plotScatHist(x,y, # data for plotting
 	axHistY.grid(axis="y")
 	axHistY.set_ylim(axScatter.get_ylim())
 	axHistY.set_yticks(axScatter.get_yticks())
+	if axStrFormat is not None:
+		axHistY.xaxis.set_major_formatter(FormatStrFormatter("%{0}d".format(len(format(xticks[-1],axStrFormat[1:])))))
   
 	# Saving
 	if saveName is not None:
