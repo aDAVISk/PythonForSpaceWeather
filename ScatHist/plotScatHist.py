@@ -23,7 +23,7 @@ import numpy as np
 import matplotlib.pyplot as plt 
 from sklearn.linear_model import LinearRegression
 
-def scatHist(x,y, # data for plotting
+def plotScatHist(x,y, # data for plotting
 	     xticks=None,yticks=None, #  ticks for x or y axis
 	     xlim=None,ylim=None, # plotting limits for x or y axis
 	     bins=None, # bins for histgram
@@ -120,3 +120,4 @@ def scatHist(x,y, # data for plotting
 		plt.show()
 	else:
 		plt.close()
+# end of plotScatHist
