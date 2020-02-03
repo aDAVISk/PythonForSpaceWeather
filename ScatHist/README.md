@@ -1,4 +1,4 @@
-plotScatHist.py contains the method plotScatHist which produces scatter-histgram graph of two sets of data.
+"plotScatHist.py" contains the method `plotScatHist` which produces scatter-histgram graph of two sets of data.
 
 Run following Python script to get an output like "outputExample.png"
 ```python
