@@ -18,6 +18,9 @@
 #   |  x------------x g x---x   |
 #   |         margin_lb         |
 #   =============================
+#
+# Reference: https://matplotlib.org/gallery/lines_bars_and_markers/scatter_hist.html (Retrieved: 2020.02.03)
+
 
 import numpy as np
 import matplotlib.pyplot as plt 
