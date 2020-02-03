@@ -1,12 +1,30 @@
 # plotScatHist.py
 # CC-BY Akito D. Kawamura (@aDAVISk) 
+#
+# This program plots the scatter plot of height & width equal to scatHeight times of histgram height
+# as described as following. 
+#   =============================    
+#   |         margin_tr         |   <- Parameter description on a figure
+#   |  x------------x           |   * Scatter plot would be square if the figure is square.
+#   |m : histgram X :         m |   * "histgram height" is the length of "x---x" for histY or "x:x" for histgram X. 
+#   |a x------------x         a |   * "spacing" and "margin_??" are in the unit of figure size as 1.
+#   |r    spacing             r |
+#   |g x------------x s x---x g |
+#   |i :  scatter   : p : h : i |
+#   |n :   plot     : a : i : n |
+#   |_ :            : c : s : _ |
+#   |l :            : i : t : t |
+#   |b : scatHeight : n : Y : r |
+#   |  x------------x g x---x   |
+#   |         margin_lb         |
+#   =============================
 
 import numpy as np
 import matplotlib.pyplot as plt 
 from sklearn.linear_model import LinearRegression
 
 def scatHist(x,y, # data for plotting
-	     xticks=None,yticks=None, #  ticks for x and y axis
+	     xticks=None,yticks=None, #  ticks for x or y axis
 	     xlim=None,ylim=None, # plotting limits for x or y axis
 	     bins=None, # bins for histgram
 	     figsize=(8.0,8.0), # size of figure
@@ -20,22 +38,6 @@ def scatHist(x,y, # data for plotting
 	     fontsize=16, # font size
 	     ylabelOff=0.07 # ajust the position of y-axis title
 	    ):
-	# This program plots the scatter plot of height & width equal to scatHeight times of histgram height
-	# =============================    
-	# |         margin_tr         |    * Scatter plot would be square if the figure is square.
-	# |  x------------x           |
-	# |m : histgram X :         m |
-	# |a x------------x         a |
-	# |r    spacing             r |
-	# |g x------------x s x---x g |
-	# |i :  scatter   : p : h : i |
-	# |n :   plot     : a : i : n |
-	# |_ :            : c : s : _ |
-	# |l :            : i : t : t |
-	# |b : scatHeight : n : Y : r |
-	# |  x------------x g x---x   |
-	# |         margin_lb         |
-	# =============================
 	
 	# Parameter checks
 	x = np.array(x)
