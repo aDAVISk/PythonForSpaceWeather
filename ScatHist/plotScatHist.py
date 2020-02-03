@@ -53,7 +53,6 @@ def plotScatHist(x,y, # data for plotting
 	if bins is None:
 		bins = np.linspace(np.min([xlim[0],ylim[0]),np.max([xlim[1],ylim[1]]),10)
 
-
 	# calculate the linear regression
 	lin_x = x.reshape(-1,1)
 	lin_y = y.reshape(-1,1)
