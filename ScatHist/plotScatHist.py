@@ -49,21 +49,16 @@ def plotScatHist(x,y, # data for plotting
 	y = np.array(y)
 	if xticks is None:
 		xticks = np.linspace(logFloor(np.min(x)), logCeil(np.max(x)),binNum+1)
-		print("xticks = {0}".format(xticks))
 	if yticks is None:
 		yticks = np.linspace(logFloor(np.min(y)), logCeil(np.max(y)),binNum+1)
-		print("yticks = {0}".format(yticks))
 	if xlim is None:
 		axMargin = 0.1*np.min([np.abs(logFloor(xticks[0])),np.abs(logFloor(xticks[-1]))])
 		xlim = np.array([logFloor(xticks[0])-axMargin,logCeil(xticks[-1])+axMargin])
-		print("xlim = {0}".format(xlim))
 	if ylim is None:
 		axMargin = 0.1*np.min([np.abs(logFloor(yticks[0])),np.abs(logFloor(yticks[-1]))])
 		ylim = np.array([logFloor(yticks[0])-axMargin,logCeil(yticks[-1])+axMargin])
-		print("ylim = {0}".format(ylim))
 	if bins is None:
 		bins = np.linspace(np.min([xticks[0],yticks[0]]),np.max([xticks[-1],yticks[-1]]),binNum+1)
-		print("bins = {0}".format(bins))
 
 	# calculate the linear regression
 	lin_x = x.reshape(-1,1)
