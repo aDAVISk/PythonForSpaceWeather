@@ -33,6 +33,7 @@ def plotScatHist(x,y, # data for plotting
 	     scatHeight=5, # size of figure in the unit of the height of histgram graphic
 	     scatMark="k.", # format of scattering marks
 	     xTitle=" ",yTitle=" ", # Titles of x or y axis
+	     axStrFormat = "%.1f", # tick format for scatter plot 
 	     saveName=None, # file name for saving
 	     showing=False, # set True to display the figure on the screen
 	     fontsize=16, # font size
@@ -40,18 +41,27 @@ def plotScatHist(x,y, # data for plotting
 	    ):
 	
 	# Parameter checks
+	logFloor = lambda xx: np.sign(xx)*(np.floor(np.abs(xx)/10**np.floor(np.log10(np.abs(xx))))+0.5*(1-np.sign(xx)))*10**np.floor(np.log10(np.abs(xx)))
+	logCeil  = lambda xx: np.sign(xx)*(np.ceil(np.abs(xx)/10**np.floor(np.log10(np.abs(xx))))-0.5*(1-np.sign(xx)))*10**np.floor(np.log10(np.abs(xx)))
 	x = np.array(x)
 	y = np.array(y)
 	if xticks is None:
-		xticks = np.arange(np.floor(np.min(x)*(1-0.1*np.sign(np.min(x)))), np.ceil(np.max(x)*(1+0.1*np.sign(np.max(x)))))
+		xticks = np.linspace(logFloor(np.min(x)), logCeil(np.max(x)),binNum)
+		print("xticks = {0}".format(xticks))
 	if yticks is None:
-		yticks = np.arange(np.floor(np.min(y)*(1-0.1*np.sign(np.min(y)))), np.ceil(np.max(y)*(1+0.1*np.sign(np.max(y)))))
+		yticks = np.linspace(logFloor(np.min(y)), logCeil(np.max(y)),binNum)
+		print("yticks = {0}".format(yticks))
 	if xlim is None:
-		xlim = np.array([xticks[0]*(1-0.1*np.sign(xticks[0])),xticks[-1]*(1+0.1*np.sign(xticks[0]))])
+		axMargin = 0.1*np.min([np.abs(logFloor(xticks[0])),np.abs(logFloor(xticks[-1]))])
+		xlim = np.array([logFloor(xticks[0])-axMargin,logCeil(xticks[-1])+axMargin])
+		print("xlim = {0}".format(xlim))
 	if ylim is None:
-		ylim = np.array([yticks[0]*(1-0.1*np.sign(yticks[0])),yticks[-1]*(1+0.1*np.sign(yticks[0]))])
+		axMargin = 0.1*np.min([np.abs(logFloor(yticks[0])),np.abs(logFloor(yticks[-1]))])
+		ylim = np.array([logFloor(yticks[0])-axMargin,logCeil(yticks[-1])+axMargin])
+		print("ylim = {0}".format(ylim))
 	if bins is None:
-		bins = np.linspace(np.min([xlim[0],ylim[0]]),np.max([xlim[1],ylim[1]]),10)
+		bins = np.linspace(np.min([xticks[0],yticks[0]]),np.max([xticks[-1],yticks[-1]]),binNum)
+		print("bins = {0}".format(bins))
 
 	# calculate the linear regression
 	lin_x = x.reshape(-1,1)
@@ -95,6 +105,9 @@ def plotScatHist(x,y, # data for plotting
 	axScatter.grid()
 	axScatter.set_xlabel(xTitle)
 	axScatter.set_ylabel(yTitle)
+	if axStrFormat is not None:
+		axScatter.xaxis.set_major_formatter(FormatStrFormatter(axStrFormat))
+		axScatter.yaxis.set_major_formatter(FormatStrFormatter(axStrFormat))
 	axScatter.text(xlim[0]+0.2,ylim[1]-0.5,"coefficient = {0:5.2f}".format(reg.coef_[0][0]))#,fontsize=fontsize)
 	axScatter.yaxis.set_label_coords(-ylabelOff, 0.5)
 
@@ -103,6 +116,7 @@ def plotScatHist(x,y, # data for plotting
 	axHistX.grid(axis="x")
 	axHistX.set_ylabel("counts")
 	axHistX.set_xlim(axScatter.get_xlim())
+	axHistX.set_xticks(axScatter.get_xticks())
 	axHistX.yaxis.set_label_coords(-ylabelOff, 0.5)
 
 	# Adjestment for histgram of y
@@ -110,6 +124,7 @@ def plotScatHist(x,y, # data for plotting
 	axHistY.set_xlabel("counts")
 	axHistY.grid(axis="y")
 	axHistY.set_ylim(axScatter.get_ylim())
+	axHistY.set_yticks(axScatter.get_yticks())
   
 	# Saving
 	if saveName is not None:
