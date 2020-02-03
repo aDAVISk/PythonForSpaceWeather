@@ -105,7 +105,8 @@ def plotScatHist(x,y, # data for plotting
 	if axStrFormat is not None:
 		axScatter.xaxis.set_major_formatter(FormatStrFormatter(axStrFormat))
 		axScatter.yaxis.set_major_formatter(FormatStrFormatter(axStrFormat))
-	axScatter.text(xlim[0]+0.2,ylim[1]-0.5,"coefficient = {0:5.2f}".format(reg.coef_[0][0]))#,fontsize=fontsize)
+	axScatter.text(xlim[0]+0.01*(xlim[1]-xlim[0]),ylim[1]-0.05*(ylim[1]-ylim[0]),\
+		"coefficient = {0:5.2f}".format(reg.coef_[0][0]))#,fontsize=fontsize)
 	axScatter.yaxis.set_label_coords(-ylabelOff, 0.5)
 
 	# Adjestment for histgram of x
