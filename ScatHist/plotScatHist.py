@@ -41,8 +41,10 @@ def plotScatHist(x,y, # data for plotting
 	    ):
 	
 	# Parameter checks
-	logFloor = lambda xx: np.sign(xx)*(np.floor(np.abs(xx)/10**np.floor(np.log10(np.abs(xx))))+0.5*(1-np.sign(xx)))*10**np.floor(np.log10(np.abs(xx)))
-	logCeil  = lambda xx: np.sign(xx)*(np.ceil(np.abs(xx)/10**np.floor(np.log10(np.abs(xx))))-0.5*(1-np.sign(xx)))*10**np.floor(np.log10(np.abs(xx)))
+	logFloor = lambda xx: np.sign(xx)*(np.floor(np.abs(xx)/10**np.floor(np.log10(np.abs(xx))))+0.5*(1-np.sign(xx)))\
+			*10**np.floor(np.log10(np.abs(xx)))
+	logCeil  = lambda xx: np.sign(xx)*(np.ceil(np.abs(xx)/10**np.floor(np.log10(np.abs(xx))))-0.5*(1-np.sign(xx)))\
+			*10**np.floor(np.log10(np.abs(xx)))
 	x = np.array(x)
 	y = np.array(y)
 	if xticks is None:
