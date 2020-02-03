@@ -43,9 +43,9 @@ def plotScatHist(x,y, # data for plotting
 	x = np.array(x)
 	y = np.array(y)
 	if xticks is None:
-		xticks = np.arange(np.floor(np.min(x)*(1-0.1*np.sign(xticks[0]))), np.ceil(np.max(x)*(1+0.1*np.sign(xticks[-1]))))
+		xticks = np.arange(np.floor(np.min(x)*(1-0.1*np.sign(np.min(x)))), np.ceil(np.max(x)*(1+0.1*np.sign(np.max(x)))))
 	if yticks is None:
-		yticks = np.arange(np.floor(np.min(y)*(1-0.1*np.sign(yticks[0]))), np.ceil(np.max(y)*(1+0.1*np.sign(yticks[-1]))))
+		yticks = np.arange(np.floor(np.min(y)*(1-0.1*np.sign(np.min(y)))), np.ceil(np.max(y)*(1+0.1*np.sign(np.max(y)))))
 	if xlim is None:
 		xlim = np.array([xticks[0]*(1-0.1*np.sign(xticks[0])),xticks[-1]*(1+0.1*np.sign(xticks[0]))])
 	if ylim is None:
