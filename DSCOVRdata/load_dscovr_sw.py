@@ -17,8 +17,6 @@
 # dataSortedByTime = swData.sortedData()
 # ----
 
-# This is an old version working appropliately.
-
 import netCDF4
 import re
 import math
