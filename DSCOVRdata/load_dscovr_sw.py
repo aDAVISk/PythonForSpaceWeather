@@ -38,8 +38,7 @@ class DSCOVRdata:
         if not isinstance(savekeys,list): savekeys = [savekeys]
         mem = None
         if filename[-3:] == ".gz":
-            with gzip.open(filename,"rb") as gz:
-                mem = gz.read()
+            mem = gzip.open(filename,"rb").read()
         with netCDF4.Dataset(filename,"r",memory=mem) as nc:
             time = nc.variables["time"]
             epoch = datetime.fromisoformat(re.search('\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}',time.units).group(0))
